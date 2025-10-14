@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimmbeschwerden - Fragebogen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Fragebogen Stimme und Hals</h1>
+        <p>Bitte kennzeichnen Sie die Häufigkeit und den Schweregrad der folgenden Symptome, indem Sie die entsprechenden Zahlen ankreuzen und senden Sie den Fragebogen ab. <p>Danach werden Sie zur Stimmanalyse weitergeleitet.</p>
+        <ul>
+            <li>Häufigkeit:  0 = nie, 1 = selten, 2 = manchmal, 3 = oft, 4 = immer</li>
+            <li>Schweregrad: 0 = nicht vorhanden, 1 = leicht, 2 = mittel, 3 = schwer, 4 = sehr schwer</li>
+        </ul>
+        <form id="vtd-form">
+            <h2>Symptome/Empfindungen</h2>
+
+            <!-- Question 1 -->
+            <div class="question">
+                <label class="symptom">1. Trockenheit</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit:</label>
+                        <input type="radio" name="freq1" value="0" required>0
+                        <input type="radio" name="freq1" value="1">1
+                        <input type="radio" name="freq1" value="2">2
+                        <input type="radio" name="freq1" value="3">3
+                        <input type="radio" name="freq1" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev1" value="0" required>0
+                        <input type="radio" name="sev1" value="1">1
+                        <input type="radio" name="sev1" value="2">2
+                        <input type="radio" name="sev1" value="3">3
+                        <input type="radio" name="sev1" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="question">
+                <label class="symptom">2. Brennen</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit:</label>
+                        <input type="radio" name="freq2" value="0" required>0
+                        <input type="radio" name="freq2" value="1">1
+                        <input type="radio" name="freq2" value="2">2
+                        <input type="radio" name="freq2" value="3">3
+                        <input type="radio" name="freq2" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev2" value="0" required>0
+                        <input type="radio" name="sev2" value="1">1
+                        <input type="radio" name="sev2" value="2">2
+                        <input type="radio" name="sev2" value="3">3
+                        <input type="radio" name="sev2" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="question">
+                <label class="symptom">3. Räusperzwang</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit:</label>
+                        <input type="radio" name="freq3" value="0" required>0
+                        <input type="radio" name="freq3" value="1">1
+                        <input type="radio" name="freq3" value="2">2
+                        <input type="radio" name="freq3" value="3">3
+                        <input type="radio" name="freq3" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev3" value="0" required>0
+                        <input type="radio" name="sev3" value="1">1
+                        <input type="radio" name="sev3" value="2">2
+                        <input type="radio" name="sev3" value="3">3
+                        <input type="radio" name="sev3" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="question">
+                <label class="symptom">4. Engegefühl</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit: </label>
+                        <input type="radio" name="freq4" value="0" required>0
+                        <input type="radio" name="freq4" value="1">1
+                        <input type="radio" name="freq4" value="2">2
+                        <input type="radio" name="freq4" value="3">3
+                        <input type="radio" name="freq4" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev4" value="0" required>0
+                        <input type="radio" name="sev4" value="1">1
+                        <input type="radio" name="sev4" value="2">2
+                        <input type="radio" name="sev4" value="3">3
+                        <input type="radio" name="sev4" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 5 -->
+            <div class="question">
+                <label class="symptom">5. Juckreiz</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit: </label>
+                        <input type="radio" name="freq5" value="0" required>0
+                        <input type="radio" name="freq5" value="1">1
+                        <input type="radio" name="freq5" value="2">2
+                        <input type="radio" name="freq5" value="3">3
+                        <input type="radio" name="freq5" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev5" value="0" required>0
+                        <input type="radio" name="sev5" value="1">1
+                        <input type="radio" name="sev5" value="2">2
+                        <input type="radio" name="sev5" value="3">3
+                        <input type="radio" name="sev5" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 6 -->
+            <div class="question">
+                <label class="symptom">6. Schmerzen</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit: </label>
+                        <input type="radio" name="freq6" value="0" required>0
+                        <input type="radio" name="freq6" value="1">1
+                        <input type="radio" name="freq6" value="2">2
+                        <input type="radio" name="freq6" value="3">3
+                        <input type="radio" name="freq6" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev6" value="0" required>0
+                        <input type="radio" name="sev6" value="1">1
+                        <input type="radio" name="sev6" value="2">2
+                        <input type="radio" name="sev6" value="3">3
+                        <input type="radio" name="sev6" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 7 -->
+            <div class="question">
+                <label class="symptom">7. Klossgefühl</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit: </label>
+                        <input type="radio" name="freq7" value="0" required>0
+                        <input type="radio" name="freq7" value="1">1
+                        <input type="radio" name="freq7" value="2">2
+                        <input type="radio" name="freq7" value="3">3
+                        <input type="radio" name="freq7" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev7" value="0" required>0
+                        <input type="radio" name="sev7" value="1">1
+                        <input type="radio" name="sev7" value="2">2
+                        <input type="radio" name="sev7" value="3">3
+                        <input type="radio" name="sev7" value="4">4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 8 -->
+            <div class="question">
+                <label class="symptom">8. Stimm-Müdigkeit</label>
+                <div class="options">
+                    <div>
+                        <label>Häufigkeit: </label>
+                        <input type="radio" name="freq8" value="0" required>0
+                        <input type="radio" name="freq8" value="1">1
+                        <input type="radio" name="freq8" value="2">2
+                        <input type="radio" name="freq8" value="3">3
+                        <input type="radio" name="freq8" value="4">4
+                    </div>
+                    <div>
+                        <label>Schweregrad:</label>
+                        <input type="radio" name="sev8" value="0" required>0
+                        <input type="radio" name="sev8" value="1">1
+                        <input type="radio" name="sev8" value="2">2
+                        <input type="radio" name="sev8" value="3">3
+                        <input type="radio" name="sev8" value="4">4
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Weiter</button>
+        </form>
+        <div id="result"></div>
+        <canvas id="resultChart" width="400" height="200"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
