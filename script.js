@@ -1,3 +1,8 @@
+// 1) unique_code aus der URL holen
+const urlParams = new URLSearchParams(window.location.search);
+const uniqueCode = urlParams.get('unique_code') || 'ohne_code';
+
+// 2) Formular-Submit behandeln
 document.getElementById('vtd-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -53,23 +58,23 @@ document.getElementById('vtd-form').addEventListener('submit', function(event) {
         }
     });
 
-    // Create PDF after displaying the result and chart
+    // 3) PDF erzeugen + an Backend schicken
     setTimeout(function() {
-        html2canvas(document.querySelector("#resultChart")).then(canvas => {
+        html2canvas(document.querySelector("#resultChart")).then(async (canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
 
-            // Add title to PDF
+            // Titel
             pdf.setFontSize(18);
             pdf.text(10, 15, "Fragebogen Stimme");
 
-            // Add results text to PDF
+            // Ergebnisse
             pdf.setFontSize(12);
             pdf.text(10, 30, `Gesamtpunktzahl Häufigkeit: ${totalFreqScore}`);
             pdf.text(10, 40, `Gesamtpunktzahl Schweregrad: ${totalSevScore}`);
 
-            // Add chart image to PDF
+            // Chart-Bild
             pdf.addImage(imgData, 'PNG', 10, 50, 180, 160);
 
             const date = new Date();
@@ -77,12 +82,40 @@ document.getElementById('vtd-form').addEventListener('submit', function(event) {
             const formattedTime = date.toTimeString().split(' ')[0].replace(/:/g, '-');
             const fileName = `Fragebogen_Stimme_${formattedDate}_${formattedTime}.pdf`;
 
+            // OPTIONAL: PDF dem Patienten direkt anbieten
             pdf.save(fileName);
 
-            // Redirect after saving PDF
-            setTimeout(function() {
-                window.location.href = 'https://stimmanalyse.glitch.me';
-            }, 2000); // Additional 2 seconds delay
+            // 3a) PDF in Base64 konvertieren
+            const pdfDataUri = pdf.output('datauristring');        // "data:application/pdf;base64,...."
+            const pdfBase64 = pdfDataUri.split(',')[1];            // nur der Base64-Teil
+
+            // 3b) an dein Backend schicken
+            try {
+                const response = await fetch('https://DEIN-REPLIT-NAME.replit.dev/api/save-vhi-results', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        unique_code: uniqueCode,
+                        pdf_base64: pdfBase64,
+                        filename: fileName
+                    })
+                });
+
+                if (!response.ok) {
+                    console.error('Fehler beim Speichern in Supabase', await response.text());
+                    alert('Das PDF konnte nicht auf dem Server gespeichert werden. Bitte später erneut versuchen.');
+                    return;
+                }
+
+                // 3c) Weiterleitung zur Stimmanalyse MIT unique_code
+                window.location.href = `https://stimmanalyse.glitch.me?unique_code=${encodeURIComponent(uniqueCode)}`;
+
+            } catch (err) {
+                console.error('Netzwerkfehler beim Senden des PDFs:', err);
+                alert('Der Server ist momentan nicht erreichbar. Bitte später nochmal versuchen.');
+            }
         });
-    }, 3000); // 3 seconds delay to show the result
+    }, 3000); // 3 Sekunden, damit Ergebnis & Chart sichtbar sind
 });
