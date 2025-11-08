@@ -95,7 +95,6 @@ document.getElementById('vtd-form').addEventListener('submit', function (event) 
     });
 
     // 5) PDF erzeugen und an Backend senden
-    // kurze Verzögerung, damit der Chart sicher gerendert ist
     setTimeout(function () {
         html2canvas(document.querySelector('#resultChart')).then(async (canvas) => {
             const imgData = canvas.toDataURL('image/png');
@@ -130,7 +129,6 @@ document.getElementById('vtd-form').addEventListener('submit', function (event) 
             const pdfBase64 = pdfDataUri.split(',')[1]; // nur der Base64-Teil
 
             try {
-                // 6) an Replit-Backend schicken
                 const response = await fetch(SAVE_VHI_RESULTS_URL, {
                     method: 'POST',
                     headers: {
@@ -152,7 +150,7 @@ document.getElementById('vtd-form').addEventListener('submit', function (event) 
                     return;
                 }
 
-                // 7) Weiterleitung zur Stimmanalyse (mit unique_code)
+                // Weiterleitung zur Stimmanalyse (mit unique_code)
                 window.location.href =
                     'https://stimmanalyse.glitch.me?unique_code=' +
                     encodeURIComponent(uniqueCode);
@@ -165,5 +163,5 @@ document.getElementById('vtd-form').addEventListener('submit', function (event) 
                 );
             }
         });
-    }, 1000); // 1 Sekunde reicht meist, damit der Chart fertig ist
+    }, 1000); // 1 Sekunde, damit der Chart fertig gerendert ist
 });
